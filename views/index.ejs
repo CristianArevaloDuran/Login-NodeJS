@@ -4,15 +4,36 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/index.css">
     <title>Index</title>
 </head>
 <body>
     <p>Bienvenido</p>
     <% if(login) { %>
-        <p>Usuario conectado: <%= user %> </p>
+        <p>Usuario conectado: <span><%= user %></span></p>
+        <p>Nombre usuario: <span><%= name %></span></p>
+        <div class="chat">
+            <div class="output">
+                <% if(data){ %>
+                    <% for(let i; i < data.lenght; i++) { %>
+                        <p><%= data[i].user %></p>
+                        <p><%= data[i].message %></p>
+                    <% } %>
+                <% } %>
+            </div>
+            <div class="text-chat">
+                <input type="text" id="user" value="<%= user %>" hidden>
+                <input type="text" id="userid" value="<%= userid %>" hidden>
+                <input type="text" placeholder="Mensaje" id="message">
+                <button class="send" id="send">Enviar</button>
+            </div>
+        </div>
         <a href="logout">Cerrar sesion</a>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/js/script.js"></script>
     <% } else { %>
         <a href="/login">Iniciar sesion</a>
     <% } %>
+    
 </body>
 </html>

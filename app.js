@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const socketio = require("socket.io");
 
 app.set('port', process.env.PORT || 3000);
 
@@ -10,8 +11,8 @@ const dotenv = require('dotenv');
 
 dotenv.config({path:'./env/.env'});
 
-app.use('./resources', express.static('/public'));
-app.use('./resources', express.static(__dirname + '/public'));
+app.use(express.static('/public'));
+app.use(express.static(__dirname + '/public'));
 
 app.set('view engine', 'ejs')
 
@@ -55,7 +56,9 @@ app.post('/auth', async (req, res)=>{
                 res.send('Error');
             } else {
                 req.session.loggedin = true;
+                req.session.user = results[0].user;
                 req.session.name = results[0].name;
+                req.session.userid = results[0].id;
                 res.redirect('/')
             }
         })
@@ -68,8 +71,18 @@ app.get('/', (req, res)=>{
     if(req.session.loggedin) {
         res.render('index.ejs', {
             login:true,
-            user:req.session.name
+            user:req.session.user,
+            name:req.session.name,
+            userid:req.session.userid
         })
+        connection.query("SELECT * FROM messages AS ms INNER JOIN users AS us ON us.id = ms.id_usuario ORDER BY id asc", (err, rows)=>{
+            if(err) {
+                res.render("index.ejs", {data:""});
+            } else {
+                res.render("index.ejs", {data:rows})
+            }
+            
+        });
     } else {
         res.render('index.ejs', {
             login:false,
@@ -100,6 +113,23 @@ app.get('/logout', (req, res)=>{
     })
 })
 
-app.listen(app.get('port'), (req, res)=>{
+const server = app.listen(app.get('port'), (req, res)=>{
     console.log('Server at port: ', app.get('port'));
+})
+
+const io = socketio(server);
+
+io.on("connection", (socket)=> {
+    console.log("New connection", socket.id);
+    socket.on("mensaje", (data)=>{
+        connection.query("INSERT INTO messages SET ?", {
+            message: data.message,
+            id_usuario: data.userid
+        }, (err, results)=>{
+            if(err){
+                console.log(err);
+            }
+        })
+        io.sockets.emit("mensaje", data);
+    })
 })
