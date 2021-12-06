@@ -7,6 +7,12 @@
     <title>Index</title>
 </head>
 <body>
-    <h1>d</h1>
+    <p>Bienvenido</p>
+    <% if(login) { %>
+        <p>Usuario conectado: <%= user %> </p>
+        <a href="logout">Cerrar sesion</a>
+    <% } else { %>
+        <a href="/login">Iniciar sesion</a>
+    <% } %>
 </body>
 </html>
