@@ -14,10 +14,10 @@
         <p>Nombre usuario: <span><%= name %></span></p>
         <div class="chat">
             <div class="output">
-                <% if(data){ %>
-                    <% for(let i; i < data.lenght; i++) { %>
-                        <p><%= data[i].user %></p>
-                        <p><%= data[i].message %></p>
+                <% if(rows){ %>
+                    <% for(var i = 0; i < rows.lenght; i++) { %>
+                        <p><%= rows[i].user %></p>
+                        <p><%= rows[i].message %></p>
                     <% } %>
                 <% } %>
             </div>

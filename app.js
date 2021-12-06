@@ -69,19 +69,24 @@ app.post('/auth', async (req, res)=>{
 
 app.get('/', (req, res)=>{
     if(req.session.loggedin) {
-        res.render('index.ejs', {
-            login:true,
-            user:req.session.user,
-            name:req.session.name,
-            userid:req.session.userid
-        })
-        connection.query("SELECT * FROM messages AS ms INNER JOIN users AS us ON us.id = ms.id_usuario ORDER BY id asc", (err, rows)=>{
+        connection.query("SELECT * FROM messages AS ms INNER JOIN users AS us ON us.id = ms.id_usuario ORDER BY ms.id DESC", (err, rows)=>{
             if(err) {
-                res.render("index.ejs", {data:""});
+                res.render("index.ejs", {
+                    login:false,
+                    user:req.session.user,
+                    name:req.session.name,
+                    userid:req.session.userid,
+                    data: ""
+                });
             } else {
-                res.render("index.ejs", {data:rows})
+                res.render("index.ejs", {
+                    login:true,
+                    user:req.session.user,
+                    name:req.session.name,
+                    userid:req.session.userid,
+                    rows: rows
+                })
             }
-            
         });
     } else {
         res.render('index.ejs', {
