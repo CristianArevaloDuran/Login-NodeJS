@@ -15,6 +15,7 @@ body {
 
 p {
     font-size: 40px;
+    text-align: center;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
@@ -43,7 +44,8 @@ p span {
 }
 
 .chat {
-    width: 70%;
+    min-width: 70%;
+    max-width: 90%;
     border-radius: 20px;
     background-color: #ddd;
     padding: 20px;
@@ -54,9 +56,17 @@ p span {
     background-color: #fff;
     min-height: 100px;
     padding: 10px;
+    font-size: 15px;
     border-radius: 20px;
     margin-bottom: 10px;
     width: 100%;
+    overflow-y: scroll;
+    max-height: 400px;
+}
+
+.chat .output p {
+    font-size: 15px;
+    text-align: left;
 }
 
 .chat .text-chat {
@@ -86,8 +96,7 @@ p span {
     background-color: #111;
     color: #fff;
     cursor: pointer;
-    width: 20%;
-    min-width: 10%;
+    min-width: 20%;
     margin:0;
     transition: .25s ease;
 }

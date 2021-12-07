@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const socketio = require("socket.io");
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 80);
 
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
@@ -69,22 +69,18 @@ app.post('/auth', async (req, res)=>{
 
 app.get('/', (req, res)=>{
     if(req.session.loggedin) {
-        connection.query("SELECT * FROM messages AS ms INNER JOIN users AS us ON us.id = ms.id_usuario ORDER BY ms.id DESC", (err, rows)=>{
+        connection.query("SELECT * FROM messages AS ms INNER JOIN users AS us ON us.id = ms.id_usuario ORDER BY ms.id ASC", (err, rows)=>{
             if(err) {
                 res.render("index.ejs", {
-                    login:false,
-                    user:req.session.user,
-                    name:req.session.name,
-                    userid:req.session.userid,
-                    data: ""
+                    login:false
                 });
             } else {
                 res.render("index.ejs", {
+                    data: rows,
                     login:true,
                     user:req.session.user,
                     name:req.session.name,
                     userid:req.session.userid,
-                    rows: rows
                 })
             }
         });

@@ -14,10 +14,9 @@
         <p>Nombre usuario: <span><%= name %></span></p>
         <div class="chat">
             <div class="output">
-                <% if(rows){ %>
-                    <% for(var i = 0; i < rows.lenght; i++) { %>
-                        <p><%= rows[i].user %></p>
-                        <p><%= rows[i].message %></p>
+                <% if(data.length){ %>
+                    <% for(var i = 0; i < data.length; i++) { %>
+                        <p><strong><%= data[i].user %>:</strong> <%= data[i].message %></p>
                     <% } %>
                 <% } %>
             </div>

@@ -5,6 +5,10 @@ const textbox = document.getElementById("message");
 const user = document.getElementById("user");
 const sendB = document.getElementById("send");
 
+document.addEventListener('DOMContentLoaded', ()=>{
+    output.scrollTop = output.scrollHeight;
+})
+
 sendB.addEventListener("click", ()=>{
     if(textbox.value == "") {
         alert("Inserte un mensaje");
@@ -16,6 +20,7 @@ sendB.addEventListener("click", ()=>{
         });
         textbox.value = "";
         textbox.focus();
+        output.scrollTop = output.scrollHeight;
     }
 })
 

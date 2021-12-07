@@ -18,7 +18,7 @@ form {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 40%;
+    min-width: 40%;
     background-color: #ddd;
     padding: 20px;
     border-radius: 20px;
